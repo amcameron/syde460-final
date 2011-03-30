@@ -1,0 +1,219 @@
+% vim: tw=80 et sw=4
+\documentclass{sydeStyle}
+\usepackage{amsmath}
+\usepackage{amssymb}
+% \usepackage{graphicx}
+\usepackage{longtable}
+
+\coursecode{461}
+\prof{Professor Stashuk}
+\title{
+Design of an Autonomous Hang-Glider Controller - Interim Report
+}
+\date{\today}
+
+\author{Andrew Cameron, 20252410}
+\authorthree{Peter Lobsinger, 20195824}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\chapter{Introduction}
+% This should introduce the topic in a manner understandable by anyone with a
+% reasonable technical background (i.e. any 1st year engineering student should
+% be able to understand the problem). Identify the need or problem that you want
+% to address and why you want to address it. Indicate why and to whom the
+% problem is important.  Background information should motivate the need for the
+% design and show the nature, extent or significance of the problem you have
+% defined.  This can be done, for example, by identifying inadequacies in
+% existing designs, demonstrating an industry need for such an implementation,
+% or reviewing existing research on the topic.  These three aspects
+% (Introduction, Background and Problem Statement) can be organized in separate
+% sections, or all together, etc. in order to suit the readability for your
+% particular workshop.
+
+The Waterloo Rocketry Team (WRT) is designing and building a rocket to compete
+in the 2011 Intercollegiate Rocket Engineering Competition. One aspect of the
+competition is a payload which will be assessed on functionality and
+innovation\cite{IREC}. To satisfy this component, the WRT has opted to create a
+several alternative payloads one of which is a glider to be deployed at the apex
+of the rocket's flight.
+
+The concept for the glider is a spring-loaded Paresev-type craft,
+consisting of a control mass suspended bellow a triangular wing composed of
+sailcloth or other flexible material, similar to a conventional
+hang-glider\cite{wiki:parasev}. The glider must fit within the payload area of
+the rocket and will therefore be no longer than 50~cm in length.
+
+The mechanical design of a glider suitable for this task was the subject of a
+design project by 4A Mechanical Engineering student, Gandhali Joshi. However,
+the control of this craft has not yet been considered.
+
+Control of the craft is imperative as failure to recover any component of
+the rocket or payload will result in disqualification from the
+competition\cite{IREC}. It is therefore the objective of this design project to
+design a control system for this glider to allow for ease of recoverability.
+
+\chapter{Objectives}
+% As with the Design Plan, objectives must be specific and demonstrated to be
+% realistic.  The objectives should not have significantly changed from the
+% Design Plan; however, you may want to rework them to ensure that they fit in
+% with your current progress.
+
+The deployment strategy, managed by the rocketry team, should leave the glider
+clear of the rocket and deploying with an attitude suitable to flight. This is
+where the task of the controller begins.
+
+\section{Maintain Flight}
+
+When the glider has achieved stable flight, it must remain in stable flight
+until it reaches the ground. Meteorological conditions may make this infeasible.
+It is therefore necessary to temper this requirement in moderate winds. For the
+purposes of this project, moderate wind has been defined as having a ground
+speed no greater than 30~km/h, at the upper end of "Moderate Breeze" on the
+Beaufort scale\cite{wiki:beaufort}.
+
+\section{Fly to Target}
+
+The main objective of the controller is to seek out and arrive at a
+predetermined position on the ground, to allow for the easy recovery of the
+craft upon landing. This is only feasible for certain sets of initial conditions
+and meteorological conditions.
+
+The rocket provides some guidance as to the initial conditions, while the
+meteorological conditions have been limited in the objective above.
+
+Specifically, the bounds on the initial conditions are: an altitude of between
+2 and 5~km above ground level, corresponding to a wide range about the maximum
+apex of the rocket flight; lateral displacement from target of no more than
+1~km, corresponding to the worst case estimate of the rockets trajectory;
+between 0 and 9.8~m/s downward velocity, corresponding to up to 1 second of
+freefall before deployment; between 0.5 and 3~m/s ground speed, corresponding
+to estimates of rocket flight apex velocity; any attitude that will give an
+angle of attack of between 0 and 30 degrees, given the initial velocities,
+corresponding to the assumption that the deployment procedure will position the
+craft in an orientation favourable to flight; and zero spin rates,
+corresponding to the assumption that freefall will be dominated by
+translational, not rotational, motions.
+
+\section{Land Safely}
+
+The craft is intended to be reused, the craft must not be destroyed
+upon landing. Therefor, impact forces, and impact velocities causing these must
+be limited. As the craft is unmanned, moderate impact shocks upon landing are
+acceptable. Research into acceptable bounds for impact shocks is ongoing.
+
+\chapter{Methodology}
+% At this point in the design process, your design methodology should be
+% sufficiently developed so that the path to achieve the objectives is clear.
+% Criteria (measurable qualities) and constraints (hard decisions) should be
+% provided to guide the design process and motivate preferred solutions.  The
+% extent of the use of criteria and constraints is project dependent.  The
+% design group should provide sufficient information in this section to fully
+% justify the methods used in the future of the workshop project.  If two or
+% more potential solutions are being evaluated, then a decision matrix should be
+% (eventually) utilized.
+
+A model considering the dynamics and aerodynamics of the craft is being
+developed based on existing work on hang glider flight \cite{Rogallo1960}
+\cite{Layton1963} \cite{spottiswoode}.
+Initially, this model is based on the craft investigated in \cite{spottiswoode},
+but will be updated as data about the actual craft become available.
+
+Concurrent to this, a controller is being designed based on this model.
+A linearization of the system dynamics was obtained in \cite{spottiswoode}
+through use of experimental data gathered in a wind tunnel and in free flight,
+which is being used to design the controller using state-space methods.  Pole
+placement was used for a first iteration of the controller design.  More
+sophisticated design techniques will be considered pending results of
+simulation analysis.  A likely candidate for control will be Linear Quadratic
+Regulation, with Kalman filter state estimation.
+
+To validate the controller, a series of simulations will be run using the
+previously developed model to check that the controller meets dynamic
+performance specifications and disturbance rejection criteria.  These will be
+run at the extreme bounds of valid initial conditions, regularly spaced
+intervals in the range of valid initial conditions, as well as a population of
+random samples for initial conditions.  A number of wind conditions will be
+considered in these simulations based on known existing meteorological
+phenomena including zero wind, purely horizontal wind, updraft, downdraft, a
+convection cell, and randomly selected linear superpositions and translations
+of these.
+
+% NOT IN INTRO
+% This design was the subject of much
+% investigation by NASA.\cite{Rogallo1960}\cite{Layton1963} However, the goal of these
+% investigations was manned flight; as opposed to fully-autonomous flight, which
+% would be the case here.
+
+\chapter{Timeline}
+% The timeline provided with the Design Plan should be updated to indicate the
+% current state of the project.  A concise description indicating how well the
+% group is following their projected time-line should be placed in an appendix
+% (along with the timeline).
+
+\begin{longtable} { c l c c c } 
+    \hline
+    Month & Task & Status & Andrew & Peter \\
+    \hline
+    Sep
+        & Identify task & Completed & \checkmark & \checkmark \\
+        & Identify important unknowns & Completed & \checkmark & \checkmark \\
+        & Research wing dynamics & Completed & \checkmark \\
+        & Obtain prior art & Completed & \checkmark & \\
+    \hline
+    Oct
+        & Design Plan & Completed & \checkmark \\
+        & Glider component breakdown & Completed & \checkmark & \\
+        & Glider team PDR & Completed & \checkmark & \checkmark \\
+        & Glider stable flight model & Ongoing & & \checkmark \\
+        & Actuator and sensor selection & Defered & \checkmark & \\
+    \hline
+    Nov
+        & Actuator and sensor parts acquisition & Defered & \checkmark & \\
+        & Glider deployment strategy & Adopted by WRT & & \checkmark \\
+        & Actuator and sensor testing & Defered & \checkmark & \\
+        & Steady flight controller design & Ongoing & \checkmark & \\
+    \hline
+    Dec
+        & Glider mechanical design & Completed, & & \\
+            & completed and presented (external) & Parameters Available & & \\
+        & Website Summary & Completed & & \checkmark \\
+        & Interim Progress Report & Completed & \checkmark & \\
+    \hline
+    Jan
+        & WRT engine tests (external) & Scheduled & & \\
+        & Steady flight controller design (continued) & Ongoing & \checkmark & \\
+        & Adjustment/augmentation of & Adopted by WRT & \checkmark & \\
+            & controller for deployment task  \\
+        & Rocket flight vibration modeling & Abandonned & & \checkmark \\
+    \hline
+    Feb
+        & WRT test flight (external) & Scheduled & & \\
+        & Controller parts acquisition & & \checkmark & \\
+        & Rocket flight shock/forces modeling & Abandonned & & \checkmark \\
+    \hline
+    Mar
+        & Assembly & & \checkmark & \checkmark \\
+        & Glider test flight & & \checkmark & \checkmark \\
+        & 2 week buffer & & & \\
+    \hline
+    Apr
+        & Final Report & & & \checkmark \\
+        & Conference Summary & & & \checkmark \\
+        & Project Video & & \checkmark & \\
+        & Symposium Presentation Materials & & \checkmark & \\
+        & Symposium & & \checkmark & \checkmark \\
+    \hline
+    Jun
+        & Intercollegiate Rocket \\
+            & Engineering Competition & & \checkmark & \checkmark \\
+    \hline
+\end{longtable}
+
+\bibliography{lab3}
+
+\end{document}
