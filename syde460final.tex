@@ -146,8 +146,44 @@ of these.
 % title, that's your prerogative! =)
 We used fluid mechanics and Newtonian/Eulerian mechanics, or something.
 
-\section{Control Theory}
-Something about $\dot{x} = Ax + Bu$, I suppose.
+\section{Controller Design}
+The controller must keep the craft flying stably while simultaneously attempting
+to navigate to its destination.  This means it must prevent the craft from
+attaining unstable attitudes, including those of pitch, roll, and yaw.  While
+maintaining stable flight, the controller must adjust the craft's heading in
+order to follow a smooth flightplan towards its objective.  The design of the
+controller was separated into inner and outer loops, each operating in a
+different reference frame, to simplify the design of each aspect of the control
+system.  The ultimate goal of the outer-loop controller is to designate a
+flightplan for the inner-loop controller to match; hence, it will be referred to
+as the Path Planner.
+
+%TODO: block diagram of control scheme.
+
+The outer-loop block consists of a logical controller, instead of the typical
+LTI setup.  The reasoning behind this choice was that, depending on the current
+state of the craft, control objectives should be prioritized differently.  The
+Path Planner prioritizes stable flight first and foremost; if the craft is in a
+configuration outside its normal operational parameters, the control objectives
+will be re-prioritized such that stable, forward flight is the only goal acted
+upon by the inner loop.  On the other hand, if the craft is operating within its
+flight envelope, the Path Planner will designate the desired heading in an
+attempt to minimize the difference between the craft's current heading and the
+direction of the target.  However, it limits its designation to within a
+reasonable range of the craft's current heading, in order to avoid destabilizing
+flight.
+
+%TODO: table, ranking objectives and ranges in which they operate.
+
+The inner-loop controller was designed around the linearization of craft
+dynamics provided by \cite{spottiswoode}.  For the purposes of the simulation,
+all state variables are directly measurable.  A physical implementation would
+not share this property, and so an observer would have to be designed to
+estimate state.  However, the Separation Principle assures us that the
+controller design is independant of the observer design, so the controller
+designed here can be augmented with an observer later if the prototype is
+actually built.  In the meantime, limiting the design to stabilization and
+heading tracking simplifies the design.
 
 \section{Simulation}
 Hooray for ODE solvers!
