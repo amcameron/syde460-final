@@ -185,6 +185,64 @@ designed here can be augmented with an observer later if the prototype is
 actually built.  In the meantime, limiting the design to stabilization and
 heading tracking simplifies the design.
 
+\subsection{Performance Requirements}
+Several considerations compete when establishing performance requirements for
+the control system.  The craft must stay near the linearization point for the
+model to remain accurate.  The control signal must remain within regions of
+physical operation; since it corresponds to spherical coordinates of the control
+mass, the horizontal plane serves as an extreme limit for absolute displacements
+(in other words, the angular positions of the control mass are limited to at
+most $\pm \pi/2$).  Therefore, the need for responses fast enough to stabilize
+the craft compete with the need to keep control signals small.
+
+In order to establish specifications for the controller to meet, the open-loop
+system was simulated (i.e., the glider with identically zero control input) and
+measurements were made to determine how quickly the system diverged from the
+linearization point.  Physical limits of craft behaviour were also specified.
+The specifications arrived at are summarized in Table~\ref{tab:specs}.
+
+%TODO: come up with performance requirements.
+\begin{table}[b]
+    \centering
+    \begin{tabular}{|c|}
+        hmm
+    \end{tabular}
+    \caption{Performance specifications}
+    \label{tab:specs}
+\end{table}
+
+\subsection{Linear Quadratic Regulation}
+The control design methodology used was that of linear quadratic regulation.
+Linear feedback (see (\ref{eqn:ctrllaw})) is designed to optimize a quadratic
+cost function (see (\ref{eqn:cost})).  By augmenting the state with
+integrals of the output error (see (\ref{eqn:z})), perfect steady-state tracking
+is achieved with zero additional design complexity.  The design parameters $Q$
+and $R$ are chosen and iteratively refined in order to meet the performance
+requirements.
+
+\begin{equation}
+    u
+    =
+    -
+    \begin{pmatrix}
+        K_{state} & K_{ref}
+    \end{pmatrix}
+    \begin{pmatrix}
+        x \\ z
+    \end{pmatrix}
+    \label{eqn:ctrllaw}
+\end{equation}
+
+\begin{equation}
+    z = \int\limits_0^t r(t) - y(t) \; \textrm{d}t
+    \label{eqn:z}
+\end{equation}
+
+\begin{equation}
+    J(u) = \int\limits_0^\infty x^T(t)Qx(t) + u^T(t)Ru(t) \; \textrm{d}t
+    \label{eqn:cost}
+\end{equation}
+
 \section{Simulation}
 Hooray for ODE solvers!
 
