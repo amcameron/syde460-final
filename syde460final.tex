@@ -309,13 +309,19 @@ The specifications arrived at are summarized in Table~\ref{tab:specs}.
 \end{table}
 
 \subsection{Linear Quadratic Regulation}
-The control design methodology used was that of linear quadratic regulation.
-Linear feedback (see (\ref{eqn:ctrllaw})) is designed to optimize a quadratic
-cost function (see (\ref{eqn:cost})).  By augmenting the state with
-integrals of the output error (see (\ref{eqn:z})), perfect steady-state tracking
-is achieved with zero additional design complexity.  The design parameters $Q$
-and $R$ are chosen and iteratively refined in order to meet the performance
-requirements.
+The control design methodology used for the inner-loop controller was that of
+linear quadratic regulation.  In order to achieve perfect steady-state step
+tracking, the system state was augmented with integrals of the output error (see
+(\ref{eqn:z})).  No additional design complexity is required for perfect
+steady-state step tracking.  Linear feedback (see (\ref{eqn:ctrllaw})) is
+designed to optimize a quadratic cost function (see (\ref{eqn:cost})).  The
+design parameters $Q$ and $R$ are chosen and iteratively refined in order to
+meet the performance requirements.
+
+\begin{equation}
+    z = \int\limits_0^t r(t) - y(t) \; \textrm{d}t
+    \label{eqn:z}
+\end{equation}
 
 \begin{equation}
     u
@@ -328,11 +334,6 @@ requirements.
         x \\ z
     \end{pmatrix}
     \label{eqn:ctrllaw}
-\end{equation}
-
-\begin{equation}
-    z = \int\limits_0^t r(t) - y(t) \; \textrm{d}t
-    \label{eqn:z}
 \end{equation}
 
 \begin{equation}
