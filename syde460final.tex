@@ -317,7 +317,8 @@ tracking, the system state was augmented with integrals of the output error (see
 steady-state step tracking.  Linear feedback (see (\ref{eqn:ctrllaw})) is
 designed to optimize a quadratic cost function (see (\ref{eqn:cost})).  The
 design parameters $Q$ and $R$ are chosen and iteratively refined in order to
-meet the performance requirements.
+meet the performance requirements.  The final values for $Q$, $R$, and $K$ are
+given in Table~\ref{tab:ctrlparams}.
 
 \begin{equation}
     z = \int\limits_0^t r(t) - y(t) \; \textrm{d}t
@@ -342,6 +343,15 @@ meet the performance requirements.
     \label{eqn:cost}
 \end{equation}
 
+%TODO: detail final design parameters
+\begin{table}
+    \centering
+    \begin{tabular}{|c|}
+        hmm
+    \end{tabular}
+    \caption{Final controller design parameters}
+    \label{tab:ctrlparams}
+\end{table}
 
 \section{Simulation}
 In order to implement a simulation of the craft dynamics arrived at in
