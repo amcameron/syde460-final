@@ -39,7 +39,7 @@ The Waterloo Rocketry Team (WRT) is designing and building a rocket to compete
 in the 2011 Intercollegiate Rocket Engineering Competition. One aspect of the
 competition is a payload which will be assessed on functionality and
 innovation\cite{IREC}. To satisfy this component, the WRT has opted to create a
-several alternative payloads one of which is a glider to be deployed at the apex
+number of alternative payloads one of which is a glider to be deployed at the apex
 of the rocket's flight.
 
 The concept for the glider is a spring-loaded Paresev-type craft,
@@ -144,7 +144,78 @@ of these.
 % Since you model lift and drag forces and so on, it's my understanding that it
 % counts as 'dynamics'.  But you're the expert, so if you want to change the
 % title, that's your prerogative! =)
-We used fluid mechanics and Newtonian/Eulerian mechanics, or something.
+
+In order to gain insight into craft behaviour and to evaluate controller
+performance, a model of the dynamics of the craft was created based on existing
+work \cite{Rogallo1960}\cite{Layton1963}\cite{spottiswoode}. A set of simulation
+and visualization software tools were created based on this model.
+
+\subsection{Simplifying Assumptions}
+
+In order to create a simple model demonstrating the interesting, long-term
+behaviour of the craft, a number of simplifications were made.
+
+The craft was modelled as a single body, about the center of mass of the overall
+system. This eliminates the requirement of considering forces internal to the
+system, reducing the number of forces needing consideration. However, not
+considering internal forces does entail neglecting some components of the
+dynamics, leading to further assumptions being forced.
+
+The control mass is assumed to move instantaneously to any commanded position.
+This is clearly not physical, however, the control mass is moved using torques
+at the hang point, which are some of the internal forces that have been omitted
+from the model due to the single-body assumption. Due to the smoothness of
+flight of real craft resembling the one being modelled, it is expected that the
+control mass will be moved slowly and that, under these slow actuation
+conditions, a real motor would be able to accomplish the desired position
+nearly instantly, as compared to other aspects of the craft dynamics.
+
+Another result of not modelling the control torques moving the control mass is
+that the accelerations due to these cannot be modelled. This means that changes in
+control mass position do not result in changes in wing orientation, as would
+normally occur in a real craft. This unmodelled effect results in slight
+transients in wing position response to control inputs. To the controller, this
+unanticipated effect is simply another disturbance, and a controller designed
+with disturbance rejection in mind will be more than capable of coping.
+
+The inertia tensor is assumed to be fixed. In truth, movement of the control
+mass changes the relative positioning of the masses of the system, resulting in
+changes to the inertia tensor. Such changes affect the absolute and relative
+magnitudes of the effect of external forces on the angle-rates of the craft.
+Further, changes to the inertia tensor in the absence of torques will tend to
+cause changes to the angle-rates as angular momentum is conserved. None of these
+effects are accounted for in the model, again opting to consider these as plant
+uncertainties, a variety of disturbance, which will be adequately rejected by a suitable
+controller.
+
+\subsection{External Forces}
+
+With the omission of internal forces from the dynamics, only two forces remain
+that act on the craft: aerodynamic and gravitational.
+
+Gravitational force is constant and acts downward, through the center of mass at
+all times. Aerodynamic force varies in magnitude and center of action as a
+function of speed and orientation, but can be decomposed into drag force, lift
+force, and pitching moment. These act along the axes of the aerodynamic frame,
+defined using the wind direction and the wing axis, and centered about the
+center of gravity of the wing. These are translated to forces
+and moments acting about the center of mass of the craft to give a consistent
+set of equations that describe the forces acting on the craft.
+
+\begin{eqnarray*}
+\Sigma \vec{F} = \vec{F_g} + \vec{F_L} + \vec{F_D} + \vec{F_p} \\
+\Sigma \vec{M} = \vec{M_p} + \vec{M_L} + \vec{M_D} \\
+\vec{F_g} = -mg\hat{k} \\
+\vec{F_L} = C_L(\alpha) \frac{\rho v^2 S}{2}\hat{e}_{aero,z} \\
+\vec{F_D} = -(C_D(\alpha) + \frac{C_L(\alpha)^2}{\pi e \frac{S}{c}})\frac{\rho v^2 S}{2}\hat{e}_{aero,x} \\
+\vec{M_p} = C_m(\alpha) \frac{\rho v^2 S c}{2} \hat{e}_{aero,y} \\
+\vec{F_p} = \frac{M_p}{| \vec{r_{cw}} \times \hat{e}_{aero,y} |} \
+    \frac{\hat{e}_{cw} \times \hat{e}_{aero,y}}{|\hat{e}_{cw} \times \hat{e}_{aero,y}|} \\
+\vec{M_L} = \vec{F_L} \times \vec{r_{cw}} \\
+\vec{M_D} = \vec{F_D} \times \vec{r_{cw}} \\
+\end{eqnarray*}
+
+\subsection{Resultant Motion}
 
 \section{Controller Design}
 The controller must keep the craft flying stably while simultaneously attempting
