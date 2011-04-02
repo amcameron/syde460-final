@@ -343,7 +343,14 @@ meet the performance requirements.
 
 
 \section{Simulation}
-Hooray for ODE solvers!
+
+The equations of motion and the controller are ordinary differential equations.
+These differential equations force the use of a differential equation solver.
+Since there are non-linear components in the system, notably the path planner,
+the behaviour of the system will change more rapidly in some states than in others.
+This variety of problem is the domain of stiff system solvers, such as MATLAB's
+ode15s and ODEPACK's LSODE. Both of these packages were used, yielding essentially
+identical results.
 
 \chapter{Results and Discussion}
 % Final results must be presented based on your design or testing of your
