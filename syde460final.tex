@@ -141,6 +141,7 @@ convection cell, and randomly selected linear superpositions and translations
 of these.
 
 \section{Modelling of Craft Dynamics}
+\label{sec:modelling}
 % Since you model lift and drag forces and so on, it's my understanding that it
 % counts as 'dynamics'.  But you're the expert, so if you want to change the
 % title, that's your prerogative! =)
@@ -343,7 +344,21 @@ meet the performance requirements.
 
 
 \section{Simulation}
-Hooray for ODE solvers!
+In order to implement a simulation of the craft dynamics arrived at in
+Section~\ref{sec:modelling}, a numerical approach was used.  Initial results
+using a nested 4th/5th order Runge-Kutta method\footnote{Implemented using
+MATLAB's \texttt{ode45}.} were numerically unstable.  The ODEs calculated
+previously were found to exhibit stiffness due to modes with large differences
+in their time constants.  This caused the integration error in the RK solution
+to increase rapidly, forcing extremely small step sizes.  Due to practical
+considerations, a faster simulation was desired.
+
+A stiff solver\footnote{Implemented using MATLAB's \texttt{ode15s}.} was used to
+improve simulation runtimes.  The solver uses nested 1st/5th order techniques
+implemented using the implicit method of backward differences, allowing much
+greater timesteps \cite{SR97}.  Furthermore, the solver uses strategies to
+minimize the frequency with which estimates of the problem's Jacobian matrix
+must be calculated, further accelerating solution runtimes.
 
 \chapter{Results and Discussion}
 % Final results must be presented based on your design or testing of your
