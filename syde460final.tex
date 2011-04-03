@@ -234,20 +234,20 @@ as the Path Planner.
     \label{fig:flowchart}
 \end{figure}
 
-The outer-loop block consists of a logical controller, instead of the typical
-LTI setup.  The reasoning behind this choice was that, depending on the current
-state of the craft, control objectives should be prioritized differently.  The
-Path Planner prioritizes stable flight first and foremost; if the craft is in a
-configuration outside its normal operational parameters, the control objectives
-will be re-prioritized such that stable, forward flight is the only goal acted
-upon by the inner loop.  On the other hand, if the craft is operating within its
-flight envelope, the Path Planner will designate the desired heading in an
-attempt to minimize the difference between the craft's current heading and the
-direction of the target.  However, it limits its designation to within a
-reasonable range of the craft's current heading, in order to avoid destabilizing
-flight.
+The outer-loop controller must handle the non-linearity of rotations within 3
+dimensions and balance multiple objectives. Linear control schemes are
+unsuitable to this variety of problem. In stead, a modified gradient-descent minimization 
+is run on an objective function that is piecewise defined by the state of the
+craft. The priorities of this system are to reduce pitch if it exceeds
+$45^{\circ}$ from horizontal, reduce angles of attack and sideslip if their
+combined magnitude exceeds $45^{\circ}$, and lastly to minimize the difference
+between the craft's current heading and the direction to the objective.
 
-%TODO: table, ranking objectives and ranges in which they operate.
+To avoid destabilizing the craft, the offset of the target heading to the
+current heading is limited by running only a single step of this gradient
+minimization in stead of running to completion. While this does not find the
+optimal desired orientation immediatly, the craft's convergence on the target
+heading will act to cause the target to converge towards the local minimum.
 
 The inner-loop controller was designed around the linearization of craft
 dynamics provided by \cite{spottiswoode}.  For the purposes of the simulation,
