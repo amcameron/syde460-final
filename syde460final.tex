@@ -397,13 +397,14 @@ steadily decreases due to drag effects).
 \label{sec:ctrlimpl}
 The linearized model presented in \cite{spottiswoode} uses disturbance
 parameters for the yaw, pitch, and roll attitudes.  The reference angles for
-these disturbance parameters are their steady-state values; however, as the
-steady-state values of the attitudes of the craft are difficult to calculate for
-arbitrary flight configurations, the references are effectively unknown during
-simulation.  This prevented the calculation of appropriate disturbance values to
+these disturbance parameters are their steady-state values; however, these
+steady-state values of craft parameters may be computationally
+intensive to obtain for arbitrary flight configurations, and in fact may not
+exist, for example when the craft is in a roll.
+This prevents the calculation of appropriate disturbance values to
 pass to the control logic during simulation.  The result of these difficulties
 is that the controller designed using the methodology outlined in
-Section~\ref{sec:ctrldes} was not fully implemented in simulation.
+Section~\ref{sec:ctrldes} cannot be fully implemented.
 
 \section{Controller Design}
 The linearized model in \cite{spottiswoode} was initially found to be
