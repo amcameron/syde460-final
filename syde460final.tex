@@ -59,6 +59,7 @@ the competition \cite{IREC}. This project was undertaken to design a control
 system for this glider that would facilitate the recovery of the craft.
 
 \chapter{Objectives}
+\label{sec:objs}
 % The objectives should not have changed in principle from the Design Plan and
 % Interim Report, however, you may want to rework them to ensure that they fit
 % in with the rest of the report.  Do not discuss why objectives may have been
@@ -371,9 +372,12 @@ contractions in scope were required.  As the actual glider to be built for the
 WRT was not constructed and its plans were never obtained, a model for another
 hang glider was substituted.  This model was derived using physical principles
 and simulated using numerical methods (cf. Sections \ref{sec:modelling},
-\ref{sec:simulation}).  The objectives given in Sections \ref{sec:obj1} and
-\ref{sec:obj2} were considered and designed for.
+\ref{sec:simulation}).  Of the objectives given in Section \ref{sec:objs}, those
+of flight stabilization and waypoint navigation were considered and designed
+for.  As far as can be measured, these objectives appear to have been met; see
+Section~\ref{sec:recommendations} for more details and further recommendations.
 
+%TODO: this should go in Results.
 Nonlinear simulations confirmed the inherent stability of the craft to pitch
 disturbances, although modelling difficulties prevented applying the designed
 controller to the simulated craft.  Analysis of the controller on the linearized
@@ -381,6 +385,7 @@ model shows that the derived performance requirements were met, despite
 competing requirements in, for example, the roll response.
 
 \section{Recommendations}
+\label{sec:recommendations}
 The greatest shortcoming of the design at the moment is the difficulty in
 calculating certain steady-state flight characteristics for any given state,
 preventing the integration of the controller in the nonlinear simulation.  If
@@ -394,9 +399,18 @@ replace the model from \cite{spottiswoode} with one corresponding to the actual
 craft.  Experimental testing, potentially involving either a scale model in a
 wind tunnel or a full model in free flight, should be used to refine the model.
 With the improved and validated model in hand, the controller design presented
-here should be re-evaluated, especially with regards to performance
-specifications.  Finally, the redesigned controller can be simulated and
-validated with free-flight testing.
+here should be re-evaluated to ensure that it meets the established performance
+specifications.
+
+The objective of landing the craft safely should be considered in a future
+project.  With the groundwork laid by this project and the support of the WRT,
+it should take one or two competent individuals approximately two to three
+months to research and simulate different landing techniques.
+
+Finally, with a validated model of the real-world craft, reiteration and
+validation of the existing controller design and design methodology, and landing
+techniques tested in simulation, the controller can be validated with
+free-flight testing.
 
 \appendix
 
