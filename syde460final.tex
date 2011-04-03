@@ -5,6 +5,7 @@
 % \usepackage{graphicx}
 \usepackage{longtable}
 \usepackage{nameref}
+\DeclareGraphicsExtensions{.eps}
 
 \coursecode{462}
 \prof{Professor Stashuk}
@@ -216,6 +217,7 @@ before integration.
 \end{displaymath}
 
 \section{Controller Design}
+\label{sec:ctrldes}
 
 The controller must keep the craft flying stably while simultaneously attempting
 to navigate to its destination.  This means it must prevent the craft from
@@ -230,7 +232,7 @@ as the path planner.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\columnwidth]{flowchart.eps}
+    \includegraphics[width=0.8\columnwidth]{flowchart}
     \caption{Top-Level Control Scheme}
     \label{fig:flowchart}
 \end{figure}
@@ -253,6 +255,7 @@ actually built.  In the meantime, limiting the design to stabilization and
 heading tracking simplifies the design.
 
 \subsection{Performance Requirements}
+\label{sec:perfreq}
 
 Several considerations compete when establishing performance requirements for
 the control system.  The craft must stay near the linearization point for the
@@ -270,7 +273,8 @@ linearization point.  Physical limits of craft behaviour were also specified.
 The specifications arrived at are summarized in Table~\ref{tab:specs}.
 
 %TODO: come up with performance requirements.
-%TODO: should we move performance requirements to Results?
+% Should we move performance requirements to Results? No; cf. grading sheet.
+% '- The performance requirements belong here, in Methodology.
 \begin{table}[b]
     \centering
     \begin{tabular}{|c|}
@@ -299,6 +303,7 @@ optimal desired orientation immediatly, the craft's convergence on the target
 heading will act to cause the target to converge towards the local minimum.
 
 \subsection{Linear Quadratic Regulation}
+\label{sec:lqr}
 The control design methodology used for the inner-loop controller was that of
 linear quadratic regulation.  In order to achieve perfect steady-state step
 tracking, the system state was augmented with integrals of the output error (see
@@ -358,34 +363,109 @@ must be calculated, further accelerating solution runtimes.
 % respect to the objectives.
 
 %TODO: discuss control analysis, e.g. controllability, PBH tests, etc.
-%TODO: detail final design parameters
-\begin{table}
-    \centering
-    \begin{tabular}{|c|}
-        hmm
-    \end{tabular}
-    \caption{Final controller design parameters}
-    \label{tab:ctrlparams}
-\end{table}
+\section{Simulation Results}
+As the purpose of modelling was to obtain mathematical descriptions of the craft
+behaviour, and no physical craft was obtained, the validity of the model was not
+able to be tested with experimental data.  However, the implementation of the
+model as a numerical simulation demonstrated physically reasonable behaviour;
+running the simulation with different initial conditions (ICs) showed,
+variously, long-term pitch stability (see Fig.~\ref{fig:pitchstability}), roll
+and yaw instability due to nonzero ICs (see Fig.~\ref{fig:rollinstability}), and
+other reasonable results, such as the conservation of energy (in
+Fig.~\ref{fig:pitchstability}, once terminal velocity has been reached, energy
+steadily decreases due to drag effects).
 
-\section{Maintain Flight}
+%TODO: prepare this figure.
+\begin{figure}
+    \begin{center}
+        \includegraphics{todo}
+    \end{center}
+    \caption{Simulation demonstrating long-term pitch stability.}
+    \label{fig:pitchstability}
+\end{figure}
 
-The controller acts to destabilize the craft when it tries to perform banking
-turns. In this respect, the objective is not yet met.
+%TODO: prepare this figure.
+\begin{figure}
+    \begin{center}
+        \includegraphics{todo}
+    \end{center}
+    \caption{Simulation demonstrating roll and yaw instability.}
+    \label{fig:rollinstability}
+\end{figure}
 
-\section{Fly to Target}
+\subsection{Controller Implementation}
+\label{sec:ctrlimpl}
+The linearized model presented in \cite{spottiswoode} uses disturbance
+parameters for the yaw, pitch, and roll attitudes.  The reference angles for
+these disturbance parameters are their steady-state values; however, as the
+steady-state values of the attitudes of the craft are difficult to calculate for
+arbitrary flight configurations, the references are effectively unknown during
+simulation.  This prevented the calculation of appropriate disturbance values to
+pass to the control logic during simulation.  The result of these difficulties
+is that the controller designed using the methodology outlined in
+Section~\ref{sec:ctrldes} was not fully implemented in simulation.
 
-Owing to its inability to perform bank turns, and also to its inability to steer
-descent angle away from a hard-coded value; it is impossible to argue that the
-controller steers towards the target.
+\section{Controller Design}
+The linearized model in \cite{spottiswoode} was initially found to be
+uncontrollable when using the standard controllability matrix given in
+(\ref{eqn:ctrb}).  Note that $n$ is the number of states (i.e., $A$ is $n \times
+n$).
+\begin{equation}
+    \mathcal{C} = [B \;\, AB \;\, A^2B \;\, \ldots \;\, A^{n-1}B]
+    \label{eqn:ctrb}
+\end{equation}
 
-\section{Land Safely}
+As this controllability test involves taking high powers of the $A$ matrix, it
+has poor numeric properties.  The condition number of $A$ was found to be over
+7.5e17.  When calculating the condition number of $A$ for the plant augmented
+with integral action, it was large enough that MATLAB simply classified it as
+infinite.  As a result, $\mathcal{C}$ was found to be rank-deficient.
 
-Lacking the plans for the WRT's glider, it was not possible to determine
-acceptible bounds on the landing conditions. The alternate glider parameters
-used did not contain sufficient detail to estimate these for that craft either.
-Due to this lack of information and timeline overruns elsewhere, plans for
-accomodating landing requirements were scrapped.
+To avoid these numeric issues, the PBH controllability test was used (see
+(\ref{eqn:pbhctrb})).  By evaluating the controllability of each mode separately,
+condition numbers are kept much smaller.  The largest condition number for any
+of the matrices used was found to be approximately 469, and the system was shown
+to be controllable (all of the matrices were full rank).
+\begin{equation}
+    \textrm{rank}([A - \lambda I \;\, B]) = n \quad \forall \; \lambda \in
+    \textrm{eig}(A)
+    \label{eqn:pbhctrb}
+\end{equation}
+
+Pole-zero maps of the linearized system were prepared to analyze for performance
+limitations.  The plots can be found in Appendix~\ref{sec:ctrlplots}.
+
+\section{Controller Performance}
+Although the difficulties detailed in \nameref{sec:ctrlimpl}, above, prevented
+measuring the designed controller's performance in the nonlinear simulation, it
+was simulated using the linearized plant to measure performance and iterate
+design choices for the LQR parameters $Q$ and $R$ (cf.  Section~\ref{sec:lqr}).
+The final values are given in Appendix~\ref{sec:ctrlvals}.
+
+%TODO: prepare this figure.
+\begin{figure}[b]
+    \begin{center}
+        \includegraphics{todo}
+    \end{center}
+    \caption{Simulation of linear model showing rise-time performance.}
+    \label{fig:linrisetime}
+\end{figure}
+
+\section{Objectives}
+Due to the difficulties mentioned in \nameref{sec:ctrlimpl}, above, the final
+controller design was not able to be evaluated in the nonlinear simulation.  As
+a result, it is unclear whether the controller as designed meets all of the
+objectives given in Section~\ref{sec:objs}.  However, simulations of the
+linearized model show that the controller met the performance requirements
+established for it.  If these requirements were correctly chosen, then the
+controller will stabilize the nonlinear system and aim the simulated craft
+toward the destination.
+
+However, lacking the plans for the WRT's glider, it was not possible to
+determine acceptable bounds on the landing conditions. The alternate glider
+parameters used did not contain sufficient detail to estimate these for that
+craft either.  Due to this lack of information and timeline overruns elsewhere,
+plans for accomodating landing requirements were scrapped.
 
 \chapter{Conclusions and Recommendations}
 % You must provide a clear, succinct account of your contributions to the design
@@ -529,6 +609,44 @@ bellow.
     \hline
 \end{longtable}
 
-\bibliography{syde460final}
+\chapter{Control Analysis Plots}
+\label{sec:ctrlplots}
 
+%TODO: create plots (e.g. SISO pzmaps) and put them here.
+
+\chapter{Final Controller Parameters}
+\label{sec:ctrlvals}
+
+%TODO: fill in actual values here.
+\setcounter{MaxMatrixCols}{20}
+\begin{align*}
+    Q &=
+    \begin{bmatrix}
+        1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
+    \end{bmatrix}
+    \\
+    R &=
+    \begin{bmatrix}
+        1 & 0 \\
+        0 & 1
+    \end{bmatrix}
+    \\
+    K &=
+    \begin{bmatrix}
+        1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+    \end{bmatrix}
+\end{align*}
+
+\bibliography{syde460final}
 \end{document}
