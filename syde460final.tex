@@ -318,7 +318,7 @@ steady-state step tracking.  Linear feedback (see (\ref{eqn:ctrllaw})) is
 designed to optimize a quadratic cost function (see (\ref{eqn:cost})).  The
 design parameters $Q$ and $R$ are chosen and iteratively refined in order to
 meet the performance requirements.  The final values for $Q$, $R$, and $K$ are
-given in Table~\ref{tab:ctrlparams}.
+given in Chapter~\ref{sec:results}.
 
 \begin{equation}
     z = \int\limits_0^t r(t) - y(t) \; \textrm{d}t
@@ -343,17 +343,8 @@ given in Table~\ref{tab:ctrlparams}.
     \label{eqn:cost}
 \end{equation}
 
-%TODO: detail final design parameters
-\begin{table}
-    \centering
-    \begin{tabular}{|c|}
-        hmm
-    \end{tabular}
-    \caption{Final controller design parameters}
-    \label{tab:ctrlparams}
-\end{table}
-
 \section{Simulation}
+\label{sec:simulation}
 In order to implement a simulation of the craft dynamics arrived at in
 Section~\ref{sec:modelling}, a numerical approach was used.  Initial results
 using a nested 4th/5th order Runge-Kutta method\footnote{Implemented using
@@ -372,9 +363,20 @@ minimize the frequency with which estimates of the problem's Jacobian matrix
 must be calculated, further accelerating solution runtimes.
 
 \chapter{Results and Discussion}
+\label{sec:results}
 % Final results must be presented based on your design or testing of your
 % design.  Results should indicate the efficacy of your design efforts with
 % respect to the objectives.
+
+%TODO: detail final design parameters
+\begin{table}
+    \centering
+    \begin{tabular}{|c|}
+        hmm
+    \end{tabular}
+    \caption{Final controller design parameters}
+    \label{tab:ctrlparams}
+\end{table}
 
 \chapter{Conclusions and Recommendations}
 % You must provide a clear, succinct account of your contributions to the design
@@ -385,7 +387,7 @@ must be calculated, further accelerating solution runtimes.
 
 \appendix
 
-\section{Timeline}
+\chapter{Timeline}
 % Provide a copy of your original timeline and a description of how well you met
 % the objectives initially projected.  Provide an explanation for situations
 % where the timeline requirements were not met.  This information is best placed
