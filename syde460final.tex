@@ -237,9 +237,9 @@ as the path planner.
     \label{fig:flowchart}
 \end{figure}
 
-The outer-loop block consists of a logical controller, instead of the typical
+The outer-loop block consists of a non-linear controller, instead of the typical
 LTI setup.  The reasoning behind this choice was that, depending on the current
-state of the craft, control objectives should be prioritized differently.  In
+state of the craft, differing control objectives become active.  In
 certain situations, the path planner will prioritize stable, forward flight,
 while in others, it will attempt to minimize heading error and steer the craft
 towards the target.  For more details, see \nameref{sec:ppdesign}, below.
@@ -266,8 +266,8 @@ mass, the horizontal plane serves as an extreme limit for absolute displacements
 most $\pm \pi/2$).  Therefore, the need for responses fast enough to stabilize
 the craft compete with the need to keep control signals small.
 
-In order to establish specifications for the controller to meet, the open-loop
-system was simulated (i.e., the glider with identically zero control input) and
+In order to establish specifications for the controller, the open-loop
+system was simulated (i.e., the glider with constant, zero control input) and
 measurements were made to determine how quickly the system diverged from the
 linearization point.  Physical limits of craft behaviour were also specified.
 The specifications arrived at are summarized in Table~\ref{tab:specs}.
