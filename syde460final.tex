@@ -64,48 +64,41 @@ system for this glider that would facilitate the recovery of the craft.
 % reworked here; this should be saved for the “Description of Time-Line” section
 % (described below).
 
-The deployment strategy, managed by the rocketry team, should leave the glider
-clear of the rocket and deploying with an attitude suitable to flight. This is
-where the task of the controller begins.
+The launch of the glider from the rocket is the responsibility of the rocketry
+team. The glider will be launched to a state that is suitable for flight and
+clear of all components of the rocket.
 
 \section{Maintain Flight}
 
-When the glider has achieved stable flight, it must remain in stable flight
-until it reaches the ground. Meteorological conditions may make this infeasible.
-It is therefore necessary to temper this requirement in moderate winds. For the
-purposes of this project, moderate wind has been defined as having a ground
-speed no greater than 30~km/h, at the upper end of "Moderate Breeze" on the
-Beaufort scale\cite{wiki:beaufort}.
+The control system must ensure that the craft remains in stable flight through
+the duration of its control, that is, from the end of the glider launch sequence
+to the landing. To ensure that this objective is feasible, no considerations are
+made for meteorological conditions. It is assumed that the craft flies through
+windless, constant-density air.
 
 \section{Fly to Target}
 
-The main objective of the controller is to seek out and arrive at a
-predetermined position on the ground, to allow for the easy recovery of the
-craft upon landing. This is only feasible for certain sets of initial conditions
-and meteorological conditions.
+In order to make recovery as convenient as possible, the primary objective of
+the craft's control system is to arrive at a predetermined point on the ground,
+specifically, the launch area, or a neighbouring location.
 
-The rocket provides some guidance as to the initial conditions, while the
-meteorological conditions have been limited in the objective above.
-
-Specifically, the bounds on the initial conditions are: an altitude of between
-2 and 5~km above ground level, corresponding to a wide range about the maximum
-apex of the rocket flight; lateral displacement from target of no more than
-1~km, corresponding to the worst case estimate of the rockets trajectory;
-between 0 and 9.8~m/s downward velocity, corresponding to up to 1 second of
-freefall before deployment; between 0.5 and 3~m/s ground speed, corresponding
-to estimates of rocket flight apex velocity; any attitude that will give an
-angle of attack of between 0 and 30 degrees, given the initial velocities,
-corresponding to the assumption that the deployment procedure will position the
-craft in an orientation favourable to flight; and zero spin rates,
-corresponding to the assumption that freefall will be dominated by
-translational, not rotational, motions.
+This objective is only feasible for a range of initial conditions. Fortunately,
+the rocket launch provides a relatively narrow range of initial conditions. The
+apex of the flights of the rocket under consideration will range from between
+2~km and 5~km above ground level, with lateral displacement less than 1~km. Up
+to 1~s of freefall before deployment gives 0~m/s to 9.8~m/s initial downward
+velocity. Between 0.5~m/s and 3~m/s lateral speed are expected at the apex of
+the rocket's flight, and are therefore the initial condition's ground speed
+range. The assumption that the deployment procedure will position the craft in
+a state favourable to flight can be formalized to an orientation that gives
+between 0 and 30 degrees angle of attack, no sideslip, and zero angle rates.
 
 \section{Land Safely}
 
-The craft is intended to be reused, the craft must not be destroyed
-upon landing. Therefor, impact forces, and impact velocities causing these must
-be limited. As the craft is unmanned, moderate impact shocks upon landing are
-acceptable. Research into acceptable bounds for impact shocks is ongoing.
+Recoverability and reusability, important objectives for the WRT, depend heavily
+on a graceful landing. Moderate impact shocks are acceptable for an unmanned
+craft designed with rough landings in mind. The control system will arrange for
+the craft to hit the ground within acceptable bounds for the designed glider.
 
 \chapter{Methodology}
 % Criteria (measurable qualities) and constraints (hard decisions) should be
