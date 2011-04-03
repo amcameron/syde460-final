@@ -384,6 +384,33 @@ must be calculated, further accelerating solution runtimes.
 % (nothing is ever perfect!).  Future recommendations must be provided and can
 % (if appropriate) be formulated as a basis for a future Systems Design
 % workshop.
+%TODO: talk about meeting objectives.
+A model of a hang glider was derived using physical principles and simulated
+using numerical methods (cf. Sections \ref{sec:modelling},
+\ref{sec:simulation}).  Nonlinear simulations confirmed the inherent stability
+of the craft, although modelling difficulties prevented applying the designed
+controller to the simulated craft.
+
+Analysis of the controller shows that the derived performance requirements were
+met, despite competing requirements in, for example, the roll response.
+
+\section{Recommendations}
+The greatest shortcoming of the design at the moment is the difficulty in
+calculating certain steady-state flight characteristics for any given state,
+preventing the integration of the controller in the nonlinear simulation.  If
+this can be overcome, then the controller can be simulated in a fuller
+context and evaluated to determine whether the objectives of the controller
+design have been met.
+
+If the Waterloo Rocketry Team still desires an autonomous hang glider to deploy
+from their rocket in a future competition, then craft plans must be provided to
+replace the model from \cite{spottiswoode} with one corresponding to the actual
+craft.  Experimental testing, potentially involving either a scale model in a
+wind tunnel or a full model in free flight, should be used to refine the model.
+With the improved and validated model in hand, the controller design presented
+here should be re-evaluated, especially with regards to performance
+specifications.  Finally, the redesigned controller can be simulated and
+validated with free-flight testing.
 
 \appendix
 
