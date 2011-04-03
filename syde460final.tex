@@ -4,6 +4,7 @@
 \usepackage{amssymb}
 % \usepackage{graphicx}
 \usepackage{longtable}
+\usepackage{nameref}
 
 \coursecode{462}
 \prof{Professor Stashuk}
@@ -225,9 +226,8 @@ controller was separated into inner and outer loops, each operating in a
 different reference frame, to simplify the design of each aspect of the control
 system.  The ultimate goal of the outer-loop controller is to designate a
 flightplan for the inner-loop controller to match; hence, it will be referred to
-as the Path Planner.
+as the path planner.
 
-%TODO: block diagram of control scheme.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\columnwidth]{flowchart.eps}
@@ -235,20 +235,12 @@ as the Path Planner.
     \label{fig:flowchart}
 \end{figure}
 
-The outer-loop controller must handle the non-linearity of rotations within 3
-dimensions and balance multiple objectives. Linear control schemes are
-unsuitable to this variety of problem. In stead, a modified gradient-descent minimization 
-is run on an objective function that is piecewise defined by the state of the
-craft. The priorities of this system are to reduce pitch if it exceeds
-$45^{\circ}$ from horizontal, reduce angles of attack and sideslip if their
-combined magnitude exceeds $45^{\circ}$, and lastly to minimize the difference
-between the craft's current heading and the direction to the objective.
-
-To avoid destabilizing the craft, the offset of the target heading to the
-current heading is limited by running only a single step of this gradient
-minimization in stead of running to completion. While this does not find the
-optimal desired orientation immediatly, the craft's convergence on the target
-heading will act to cause the target to converge towards the local minimum.
+The outer-loop block consists of a logical controller, instead of the typical
+LTI setup.  The reasoning behind this choice was that, depending on the current
+state of the craft, control objectives should be prioritized differently.  In
+certain situations, the path planner will prioritize stable, forward flight,
+while in others, it will attempt to minimize heading error and steer the craft
+towards the target.  For more details, see \nameref{sec:ppdesign}, below.
 
 The inner-loop controller was designed around the linearization of craft
 dynamics provided by \cite{spottiswoode}.  For the purposes of the simulation,
@@ -289,7 +281,22 @@ The specifications arrived at are summarized in Table~\ref{tab:specs}.
 \end{table}
 
 \subsection{Path Planner Design}
-%TODO: talk about goals, prioritization, gradient descent, etc.
+\label{sec:ppdesign}
+The outer-loop controller must handle the non-linearity of rotations within 3
+dimensions and balance multiple objectives. Linear control schemes are
+unsuitable to this variety of problem. Instead of a linear control scheme, a
+modified gradient-descent minimization is run on an objective function that is
+defined piecewise by the state of the craft. The priorities of this system are:
+first, to reduce pitch if it exceeds $45^{\circ}$ from horizontal; second,
+to reduce angles of attack and sideslip if their combined magnitude exceeds
+$45^{\circ}$; and lastly, to minimize the difference between the craft's current
+heading and the direction to the objective.
+
+To avoid destabilizing the craft, the offset of the target heading to the
+current heading is limited by running only a single step of this gradient
+minimization in stead of running to completion. While this does not find the
+optimal desired orientation immediatly, the craft's convergence on the target
+heading will act to cause the target to converge towards the local minimum.
 
 \subsection{Linear Quadratic Regulation}
 The control design methodology used for the inner-loop controller was that of
