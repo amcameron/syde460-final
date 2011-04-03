@@ -70,6 +70,7 @@ team. The glider will be launched to a state that is suitable for flight and
 clear of all components of the rocket.
 
 \section{Maintain Flight}
+\label{sec:obj1}
 
 The control system must ensure that the craft remains in stable flight through
 the duration of its control, that is, from the end of the glider launch sequence
@@ -78,6 +79,7 @@ made for meteorological conditions. It is assumed that the craft flies through
 windless, constant-density air.
 
 \section{Fly to Target}
+\label{sec:obj2}
 
 In order to make recovery as convenient as possible, the primary objective of
 the craft's control system is to arrive at a predetermined point on the ground,
@@ -341,6 +343,7 @@ must be calculated, further accelerating solution runtimes.
 % design.  Results should indicate the efficacy of your design efforts with
 % respect to the objectives.
 
+%TODO: discuss control analysis, e.g. controllability, PBH tests, etc.
 %TODO: detail final design parameters
 \begin{table}
     \centering
@@ -357,15 +360,19 @@ must be calculated, further accelerating solution runtimes.
 % (nothing is ever perfect!).  Future recommendations must be provided and can
 % (if appropriate) be formulated as a basis for a future Systems Design
 % workshop.
-%TODO: talk about meeting objectives.
-A model of a hang glider was derived using physical principles and simulated
-using numerical methods (cf. Sections \ref{sec:modelling},
-\ref{sec:simulation}).  Nonlinear simulations confirmed the inherent stability
-of the craft, although modelling difficulties prevented applying the designed
-controller to the simulated craft.
+Due to external factors, as well as the ambitious nature of the project, some
+contractions in scope were required.  As the actual glider to be built for the
+WRT was not constructed and its plans were never obtained, a model for another
+hang glider was substituted.  This model was derived using physical principles
+and simulated using numerical methods (cf. Sections \ref{sec:modelling},
+\ref{sec:simulation}).  The objectives given in Sections \ref{sec:obj1} and
+\ref{sec:obj2} were considered and designed for.
 
-Analysis of the controller shows that the derived performance requirements were
-met, despite competing requirements in, for example, the roll response.
+Nonlinear simulations confirmed the inherent stability of the craft to pitch
+disturbances, although modelling difficulties prevented applying the designed
+controller to the simulated craft.  Analysis of the controller on the linearized
+model shows that the derived performance requirements were met, despite
+competing requirements in, for example, the roll response.
 
 \section{Recommendations}
 The greatest shortcoming of the design at the moment is the difficulty in
