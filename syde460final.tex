@@ -16,6 +16,7 @@ Design of an Autonomous Hang-Glider Controller - Final Report
 \authorthree{Peter Lobsinger, 20195824}
 
 \begin{document}
+%TODO: describe all symbols, possibly in a Table of Symbols.
 
 \maketitle
 
@@ -212,16 +213,6 @@ before integration.
 
 \section{Controller Design}
 
-% TODO: rework this into the rest of this section
-Concurrent to this, a controller is being designed based on this model.
-A linearization of the system dynamics was obtained in \cite{spottiswoode}
-through use of experimental data gathered in a wind tunnel and in free flight,
-which is being used to design the controller using state-space methods.  Pole
-placement was used for a first iteration of the controller design.  More
-sophisticated design techniques will be considered pending results of
-simulation analysis.  A likely candidate for control will be Linear Quadratic
-Regulation, with Kalman filter state estimation.
-
 The controller must keep the craft flying stably while simultaneously attempting
 to navigate to its destination.  This means it must prevent the craft from
 attaining unstable attitudes, including those of pitch, roll, and yaw.  While
@@ -286,6 +277,9 @@ The specifications arrived at are summarized in Table~\ref{tab:specs}.
     \caption{Performance specifications}
     \label{tab:specs}
 \end{table}
+
+\subsection{Path Planner Design}
+%TODO: talk about goals, prioritization, gradient descent, etc.
 
 \subsection{Linear Quadratic Regulation}
 The control design methodology used for the inner-loop controller was that of
