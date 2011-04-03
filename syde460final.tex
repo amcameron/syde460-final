@@ -136,12 +136,12 @@ at the hang point, which are some of the internal forces that have been omitted
 from the model due to the single-body assumption. Due to the smoothness of
 flight of real craft resembling the one being modelled, it is expected that the
 control mass will be moved slowly and that, under these slow actuation
-conditions, a real motor would be able to accomplish the desired position
-nearly instantly, as compared to other aspects of the craft dynamics.
+conditions, a real motor would be able to accomplish the desired position nearly
+instantly, as compared to other aspects of the craft dynamics.
 
 Another result of not modelling the control torques moving the control mass is
-that the accelerations due to these cannot be modelled. This means that changes in
-control mass position do not result in changes in wing orientation, as would
+that the accelerations due to these cannot be modelled. This means that changes
+in control mass position do not result in changes in wing orientation, as would
 normally occur in a real craft. This unmodelled effect results in slight
 transients in wing position response to control inputs. To the controller, this
 unanticipated effect is simply another disturbance, and a controller designed
@@ -154,8 +154,8 @@ magnitudes of the effect of external forces on the angle-rates of the craft.
 Further, changes to the inertia tensor in the absence of torques will tend to
 cause changes to the angle-rates as angular momentum is conserved. None of these
 effects are accounted for in the model, again opting to consider these as plant
-uncertainties, a variety of disturbance, which will be adequately rejected by a suitable
-controller.
+uncertainties, a variety of disturbance, which will be adequately rejected by a
+suitable controller.
 
 \subsection{External Forces}
 
@@ -167,9 +167,9 @@ all times. Aerodynamic force varies in magnitude and center of action as a
 function of speed and orientation, but can be decomposed into drag force, lift
 force, and pitching moment. These act along the axes of the aerodynamic frame,
 defined using the wind direction and the wing axis, and centered about the
-center of gravity of the wing \cite{etkin}. These are translated to forces
-and moments acting about the center of mass of the craft to give a consistent
-set of equations that describe the forces acting on the craft.
+center of gravity of the wing \cite{etkin}. These are translated to forces and
+moments acting about the center of mass of the craft to give a consistent set of
+equations that describe the forces acting on the craft.
 
 \begin{eqnarray*}
 \Sigma \vec{F} &=& \vec{F_g} + \vec{F_L} + \vec{F_D} + \vec{F_p} \\
