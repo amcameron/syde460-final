@@ -233,7 +233,7 @@ as the path planner.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\columnwidth]{flowchart}
+    \includegraphics[width=0.8\columnwidth]{figs/flowchart}
     \caption{Top-Level Control Scheme}
     \label{fig:flowchart}
 \end{figure}
@@ -363,8 +363,8 @@ must be calculated, further accelerating solution runtimes.
 % design.  Results should indicate the efficacy of your design efforts with
 % respect to the objectives.
 
-%TODO: discuss control analysis, e.g. controllability, PBH tests, etc.
 \section{Simulation Results}
+\label{sec:simresults}
 As the purpose of modelling was to obtain mathematical descriptions of the craft
 behaviour, and no physical craft was obtained, the validity of the model was not
 able to be tested with experimental data.  However, the implementation of the
@@ -379,7 +379,7 @@ steadily decreases due to drag effects).
 %TODO: prepare this figure.
 \begin{figure}
     \begin{center}
-        \includegraphics{todo}
+        \includegraphics{figs/todo}
     \end{center}
     \caption{Simulation demonstrating long-term pitch stability.}
     \label{fig:pitchstability}
@@ -388,7 +388,7 @@ steadily decreases due to drag effects).
 %TODO: prepare this figure.
 \begin{figure}
     \begin{center}
-        \includegraphics{todo}
+        \includegraphics{figs/todo}
     \end{center}
     \caption{Simulation demonstrating roll and yaw instability.}
     \label{fig:rollinstability}
@@ -446,7 +446,7 @@ The final values are given in Appendix~\ref{sec:ctrlvals}.
 %TODO: prepare this figure.
 \begin{figure}[b]
     \begin{center}
-        \includegraphics{todo}
+        \includegraphics{figs/todo}
     \end{center}
     \caption{Simulation of linear model showing rise-time performance.}
     \label{fig:linrisetime}
@@ -468,7 +468,7 @@ parameters used did not contain sufficient detail to estimate these for that
 craft either.  Due to this lack of information and timeline overruns elsewhere,
 plans for accomodating landing requirements were scrapped.
 
-\chapter{Conclusions and Recommendations}
+\chapter{Conclusions}
 % You must provide a clear, succinct account of your contributions to the design
 % and solution of the identified problem.  Shortcomings should be identified
 % (nothing is ever perfect!).  Future recommendations must be provided and can
@@ -482,23 +482,16 @@ and simulated using numerical methods (cf. Sections \ref{sec:modelling},
 \ref{sec:simulation}).  Of the objectives given in Section \ref{sec:objs}, those
 of flight stabilization and waypoint navigation were considered and designed
 for.  As far as can be measured, these objectives appear to have been met; see
-Section~\ref{sec:recommendations} for more details and further recommendations.
-
-%TODO: this should go in Results.
-Nonlinear simulations confirmed the inherent stability of the craft to pitch
-disturbances, although modelling difficulties prevented applying the designed
-controller to the simulated craft.  Analysis of the controller on the linearized
-model shows that the derived performance requirements were met, despite
-competing requirements in, for example, the roll response.
+Chapter~\ref{sec:results} for more details.  Techniques for landing the craft
+safely were not considered.
 
 \section{Recommendations}
 \label{sec:recommendations}
-The greatest shortcoming of the design at the moment is the difficulty in
-calculating certain steady-state flight characteristics for any given state,
-preventing the integration of the controller in the nonlinear simulation.  If
-this can be overcome, then the controller can be simulated in a fuller
-context and evaluated to determine whether the objectives of the controller
-design have been met.
+The greatest shortcomings of the design at the moment are the difficulties
+described in Section~\ref{sec:simresults}, preventing the integration of the
+controller in the nonlinear simulation.  If this can be overcome, then the
+controller can be simulated in a fuller context and evaluated to determine
+whether the objectives of the controller design have been met.
 
 If the Waterloo Rocketry Team still desires an autonomous hang glider to deploy
 from their rocket in a future competition, then craft plans must be provided to
@@ -516,7 +509,7 @@ months to research and simulate different landing techniques.
 
 Finally, with a validated model of the real-world craft, reiteration and
 validation of the existing controller design and design methodology, and landing
-techniques tested in simulation, the controller can be validated with
+techniques tested in simulation, the craft and controller can be validated with
 free-flight testing.
 
 \appendix
@@ -612,8 +605,74 @@ bellow.
 
 \chapter{Control Analysis Plots}
 \label{sec:ctrlplots}
+Plots demonstrating pole-zero maps for the linearized plant follow.
+Figures~\ref{fig:long1} through \ref{fig:long4} show plots for transfer
+functions starting with the longitudinal control input, while
+Figures~\ref{fig:lat1} through \ref{fig:lat5} show those for transfer functions
+beginning with the lateral control input.
 
-%TODO: create plots (e.g. SISO pzmaps) and put them here.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\columnwidth]{figs/11pz}
+    %\caption{Pole-zero plots for transfer functions originating with
+    %longitudinal control input.}
+    \caption{Axial velocity}
+    \label{fig:long1}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\columnwidth]{figs/12pz}
+    \caption{Normal velocity}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\columnwidth]{figs/13pz}
+    \caption{Pitch rate}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\columnwidth]{figs/14pz}
+    \caption{Pitch attitude}
+    \label{fig:long4}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\columnwidth]{figs/25pz}
+    \caption{Lateral velocity}
+    \label{fig:lat1}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\columnwidth]{figs/26pz}
+    \caption{Roll rate}
+    \label{fig:lat2}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\columnwidth]{figs/27pz}
+    \caption{Yaw rate}
+    \label{fig:lat3}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\columnwidth]{figs/28pz}
+    \caption{Roll attitude}
+    \label{fig:lat4}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\columnwidth]{figs/29pz}
+    \caption{Yaw attitude}
+    \label{fig:lat5}
+\end{figure}
 
 \chapter{Final Controller Parameters}
 \label{sec:ctrlvals}
