@@ -32,5 +32,5 @@ $(PROJECT).dvi: $(DIAGRAMS) $(PROJECT).tex $(PROJECT).bib
 	$(TEX)  $(PROJECT)
 
 clean:
-	rm -f *.dvi *.pdf *.1 *.aux *.log *.mpx *.bbl *.blg *.toc *.sym *.glo *.gls *.sbl *.glg *.slg
+	rm -f *.dvi *.pdf *.1 *.aux *.log *.mpx *.bbl *.blg *.toc *.sym *.glo *.gls *.sbl *.glg *.slg *.xdy
 
