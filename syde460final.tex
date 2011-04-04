@@ -5,8 +5,9 @@
 % \usepackage{graphicx}
 \usepackage{longtable}
 \usepackage{nameref}
-
+\usepackage{subfig}
 \usepackage[xindy]{glossaries}
+
 \newglossary[slg]{symbol}{sym}{sbl}{List of Symbols}
 \makeglossaries
 
@@ -400,21 +401,19 @@ other reasonable results, such as the conservation of energy (in
 Fig.~\ref{fig:pitchstability}, once terminal velocity has been reached, energy
 steadily decreases due to drag effects).
 
-%TODO: prepare this figure.
 \begin{figure}
     \begin{center}
-        \includegraphics{figs/todo}
+        \includegraphics[width=0.8\columnwidth]{figs/pitchstable}
     \end{center}
-    \caption{Simulation demonstrating long-term pitch stability.}
+    \caption{Simulation demonstrating long-term open-loop pitch stability.}
     \label{fig:pitchstability}
 \end{figure}
 
-%TODO: prepare this figure.
 \begin{figure}
     \begin{center}
-        \includegraphics{figs/todo}
+        \includegraphics[width=0.8\columnwidth]{figs/rollunstable}
     \end{center}
-    \caption{Simulation demonstrating roll and yaw instability.}
+    \caption{Simulation demonstrating open-loop roll and yaw instability.}
     \label{fig:rollinstability}
 \end{figure}
 
