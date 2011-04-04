@@ -351,15 +351,15 @@ Physical limits of craft behaviour were also specified.  The derived
 specifications are summarized in Table~\ref{tab:specs}.
 
 \newglossaryentry{ess}{type=symbol,name={\ensuremath{e_{ss}}},
-description={steady state error}}
+description={steady-state error}}
 \newglossaryentry{trp}{type=symbol,name={\ensuremath{t_{r,pitch}}},
 description={pitch response 90\% rise time}}
 \newglossaryentry{trr}{type=symbol,name={\ensuremath{t_{r,roll}}},
 description={roll response 90\% rise time}}
-\newglossaryentry{upm}{type=symbol,name={\ensuremath{u_{p,max}}},
-description={upper bound on longitudinal control signal}}
 \newglossaryentry{urm}{type=symbol,name={\ensuremath{u_{r,max}}},
-description={upper bound on lateral control signal}}
+description={bounds on lateral control signal}}
+\newglossaryentry{upm}{type=symbol,name={\ensuremath{u_{p,max}}},
+description={bounds on longitudinal control signal}}
 
 % Should we move performance requirements to Results? No; cf. grading sheet.
 % '- The performance requirements belong here, in Methodology.
@@ -368,7 +368,7 @@ description={upper bound on lateral control signal}}
     \begin{tabular}{|l|r|}
         \hline
         Performance metric & Value \\ \hline
-        Steady-state error (\gls{ess}) & 0 \\
+        Steady-state error (\gls{ess}) & 0\degree \\
         Rise time, pitch (\gls{trp}) & 100 s \\
         Rise time, roll (\gls{trr}) & 3.0 s \\
         Lateral control signal bounds (\gls{urm}) & $\pm90\degree$ \\
@@ -399,36 +399,71 @@ heading will act to cause the target to converge towards the local minimum.
 
 \subsection{Linear Quadratic Regulation}
 \label{sec:lqr}
+\newglossaryentry{Q}{type=symbol,name={\ensuremath{Q}},
+description={LQR state penalty matrix}}
+\newglossaryentry{R}{type=symbol,name={\ensuremath{R}},
+description={LQR control signal penalty matrix}}
+\newglossaryentry{K}{type=symbol,name={\ensuremath{K}},
+description={controller feedback gain matrix}}
+
 The control design methodology used for the inner-loop controller was that of
 linear quadratic regulation.  In order to achieve perfect steady-state step
 tracking, the system state was augmented with integrals of the output error (see
-(\ref{eqn:z})).  No additional design complexity is required for perfect
-steady-state step tracking.  Linear feedback (see (\ref{eqn:ctrllaw})) is
-designed to optimize a quadratic cost function (see (\ref{eqn:cost})).  The
-design parameters $Q$ and $R$ are chosen and iteratively refined in order to
-meet the performance requirements.  The final values for $Q$, $R$, and $K$ are
-given in Chapter~\ref{sec:results}.
+(\ref{eqn:z}), (\ref{eqn:xaug})).  No additional design complexity is required
+for perfect steady-state step tracking.  Linear feedback (see
+(\ref{eqn:ctrllaw})) is designed to optimize a quadratic cost function (see
+(\ref{eqn:cost})).  The design parameters $\gls{Q}$ and $\gls{R}$ are chosen and
+iteratively refined in order to meet the performance requirements.  The final
+values for $\gls{Q}$, $\gls{R}$, and $\gls{K}$ are given in
+Chapter~\ref{sec:results}.
+
+\newglossaryentry{x}{type=symbol,name={\ensuremath{x}},
+description={state vector}}
+\newglossaryentry{xaug}{type=symbol,name={\ensuremath{\tilde{x}}},
+description={state vector, augmented with \gls{z}}}
+\newglossaryentry{z}{type=symbol,name={\ensuremath{z}},
+description={integrated output error signal}}
+\newglossaryentry{r}{type=symbol,name={\ensuremath{r}},
+description={reference vector for system output}}
+\newglossaryentry{y}{type=symbol,name={\ensuremath{y}},
+description={system output signal}}
+\newglossaryentry{u}{type=symbol,name={\ensuremath{u}},
+description={control signal}}
+\newglossaryentry{Kstate}{type=symbol,name={\ensuremath{K_{state}}},
+description={portion of $\gls{K}$ corresponding to state feedback}}
+\newglossaryentry{Kref}{type=symbol,name={\ensuremath{K_{ref}}},
+description={portion of $\gls{K}$ corresponding to integral error feedback}}
+\newglossaryentry{objfn}{type=symbol,name={\ensuremath{J(u)}},
+description={LQR objective function}}
 
 \begin{equation}
-    z = \int\limits_0^t r(t) - y(t) \; \textrm{d}t
+    \gls{z} = \int\limits_0^t \gls{r}(t) - \gls{y}(t) \; \textrm{d}t
     \label{eqn:z}
 \end{equation}
 
 \begin{equation}
-    u
+    \gls{xaug} =
+    \begin{pmatrix}
+        \gls{x} \\ \gls{z}
+    \end{pmatrix}
+    \label{eqn:xaug}
+\end{equation}
+
+\begin{equation}
+    \gls{u}
     =
     -
     \begin{pmatrix}
-        K_{state} & K_{ref}
+        \gls{Kstate} & \gls{Kref}
     \end{pmatrix}
-    \begin{pmatrix}
-        x \\ z
-    \end{pmatrix}
+    \gls{xaug}
+    = - \gls{K} \gls{xaug}
     \label{eqn:ctrllaw}
 \end{equation}
 
 \begin{equation}
-    J(u) = \int\limits_0^\infty x^T(t)Qx(t) + u^T(t)Ru(t) \; \textrm{d}t
+    \gls{objfn} = \int\limits_0^\infty \gls{xaug}^T(t)Q\gls{xaug}(t) +
+    \gls{u}^T(t)R\gls{u}(t) \; \textrm{d}t
     \label{eqn:cost}
 \end{equation}
 
@@ -501,20 +536,39 @@ Section~\ref{sec:ctrldes} cannot be fully implemented without making significant
 changes to the model from \cite{spottiswoode}.
 
 \section{Controller Design}
+
+\newglossaryentry{ctrb}{type=symbol,name={\ensuremath{\mathcal{C}}},
+description={standard controllability matrix}}
+\newglossaryentry{A}{type=symbol,name={\ensuremath{A}},
+description={state matrix}}
+\newglossaryentry{B}{type=symbol,name={\ensuremath{B}},
+description={input matrix}}
+\newglossaryentry{C}{type=symbol,name={\ensuremath{C}},
+description={output matrix}}
+\newglossaryentry{n}{type=symbol,name={\ensuremath{n}},
+description={number of states in \gls{x}}}
+
 The linearized model in \cite{spottiswoode} was initially found to be
 uncontrollable when using the standard controllability matrix given in
-(\ref{eqn:ctrb}).  Note that $n$ is the number of states (i.e., $A$ is $n \times
-n$).
+(\ref{eqn:ctrb}).  Note that $\gls{n}$ is the number of states (i.e., $\gls{A}$
+is $\gls{n} \times \gls{n}$).
 \begin{equation}
-    \mathcal{C} = [B \;\, AB \;\, A^2B \;\, \ldots \;\, A^{n-1}B]
+    \gls{ctrb} = [\gls{B} \;\, \gls{A}\gls{B} \;\, \gls{A}^2\gls{B} \;\, \ldots
+    \;\, \gls{A}^{\gls{n}-1}\gls{B}]
     \label{eqn:ctrb}
 \end{equation}
 
-As this controllability test involves taking high powers of the $A$ matrix, it
-has poor numeric properties.  The condition number of $A$ was found to be over
-7.5e17.  When calculating the condition number of $A$ for the plant augmented
-with integral action, it was large enough that MATLAB simply classified it as
-infinite.  As a result, $\mathcal{C}$ was found to be rank-deficient.
+As this controllability test involves taking high powers of the $\gls{A}$
+matrix, it has poor numeric properties.  The condition number of $\gls{A}$ was
+found to be over 7.5e17.  When calculating the condition number of $\gls{A}$ for
+the plant augmented with integral action, it was large enough that MATLAB simply
+classified it as infinite.  As a result, $\gls{ctrb}$ was found to be
+rank-deficient.
+
+\newglossaryentry{eig}{type=symbol,name={\ensuremath{\lambda}},
+description={an eigenvalue of \gls{A}}}
+\newglossaryentry{I}{type=symbol,name={\ensuremath{I}},
+description={the identity matrix}}
 
 To avoid these numeric issues, the PBH controllability test was used (see
 (\ref{eqn:pbhctrb})).  By evaluating the controllability of each mode separately,
@@ -522,8 +576,8 @@ condition numbers are kept much smaller.  The largest condition number for any
 of the matrices used was found to be approximately 469, and the system was shown
 to be controllable (all of the matrices were full rank).
 \begin{equation}
-    \textrm{rank}([A - \lambda I \;\, B]) = n \quad \forall \; \lambda \in
-    \textrm{eig}(A)
+    \textrm{rank}([\gls{A} - \gls{eig} \gls{I} \;\, \gls{B}]) = \gls{n} \quad
+    \forall \; \gls{eig} \in \textrm{eig}(\gls{A})
     \label{eqn:pbhctrb}
 \end{equation}
 
@@ -534,10 +588,11 @@ limitations.  The plots can be found in Appendix~\ref{sec:ctrlplots}.
 Although the difficulties detailed in \nameref{sec:ctrlimpl}, above, prevented
 measuring the designed controller's performance in the nonlinear simulation, it
 was simulated using the linearized plant to measure performance and iterate
-design choices for the LQR parameters $Q$ and $R$ (cf.  Section~\ref{sec:lqr}).
-The final values are given in Appendix~\ref{sec:ctrlvals}, and simulations
-demonstrating that the rise time specifications given in
-Section~\ref{sec:perfreq} have been met are shown in Fig.~\ref{fig:linrisetime}.
+design choices for the LQR parameters $\gls{Q}$ and $\gls{R}$ (cf.
+Section~\ref{sec:lqr}).  The final values are given in
+Appendix~\ref{sec:ctrlvals}, and simulations demonstrating that the rise time
+specifications given in Section~\ref{sec:perfreq} have been met are shown in
+Fig.~\ref{fig:linrisetime}.
 
 \begin{figure}
     \centering
@@ -778,7 +833,7 @@ beginning with the lateral control input.
 
 \setcounter{MaxMatrixCols}{20}
 \begin{align*}
-    Q &=
+    \gls{Q} &=
     \begin{bmatrix}
         1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
         0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
@@ -793,13 +848,13 @@ beginning with the lateral control input.
         0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 600
     \end{bmatrix}
     \\
-    R &=
+    \gls{R} &=
     \begin{bmatrix}
         50 & 0 \\
         0 & 50
     \end{bmatrix}
     \\
-    K &=
+    \gls{K} &=
     \begin{bmatrix}
         -0.0416 & -0.0174 & 0.377 & 1.18 & 0 & 0 & 0 & 0 & 0 & 0.141 & 0 \\
         0 & 0 & 0 & 0 & -0.219 & 0.595 & 2.31 & 4.42 & 0.217 & 0 & 3.46
