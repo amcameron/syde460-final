@@ -6,7 +6,7 @@
 \usepackage{longtable}
 \usepackage{nameref}
 \usepackage{subfig}
-\usepackage[xindy]{glossaries}
+\usepackage[xindy,toc,style=tree]{glossaries}
 
 \newglossary[slg]{symbol}{sym}{sbl}{List of Symbols}
 \makeglossaries
@@ -797,5 +797,6 @@ beginning with the lateral control input.
 
 \printglossary[type=symbol]
 
+\addcontentsline{toc}{chapter}{Bibliography}
 \bibliography{syde460final}
 \end{document}
