@@ -146,7 +146,8 @@
 	
 		\begin{center}
 			{\@date.\\
-			Course Instructor: \@prof}
+			Course Instructor: \@prof\\
+			Project Supervisor: Professor Heppler}
 		\end{center}
 	\end{titlepage}
 	}

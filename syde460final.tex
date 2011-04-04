@@ -16,7 +16,7 @@
 \coursecode{462}
 \prof{Professor Stashuk}
 \title{
-Design of an Autonomous Hang-Glider Controller - Final Report
+Design of an Autonomous Hang-Glider Controller -- Final Report
 }
 \date{\today}
 
@@ -46,20 +46,20 @@ Design of an Autonomous Hang-Glider Controller - Final Report
 
 The competition in which the Waterloo Rocketry Team (WRT) aims to compete has a
 component of the score determined by functionality and innovation of the
-payload\cite{IREC}. The WRT spawned several payload projects with the aim of
+payload \cite{IREC}. The WRT spawned several payload projects with the aim of
 achieving a good standing in this category. One such project was a
 rocket-deployed glider, which launches at apogee.
 
 The preferred design for the glider was the Parasev. A Parasev consists of a
-wing suspending a control mass\cite{wiki:parasev}. The wing is a high-sweepback
+wing suspending a control mass \cite{wiki:parasev}. The wing is a high-sweepback
 delta wing composed of sailcloth held loosely to a frame which defines the
 leading edges and a central keel. The craft is navigated by positioning the wing
 at an offset from the control mass, generating moments which change the craft's
 orientation.
 
-4A Mechanical Engineering student, Gandhali Joshi, undertook the mechanical
-design of this glider as her fourth year design project. The control of the
-craft, however, was not a component of this project.
+4A Mechanical Engineering student Gandhali Joshi undertook the mechanical
+design of this glider as her fourth-year design project. The control of the
+craft, however, was not a component of her project.
 
 All components of the rocket and payload must be recovered within a 2 hour
 window. Teams failing to comply with this regulation face disqualification from
@@ -83,7 +83,7 @@ clear of all components of the rocket.
 
 The control system must ensure that the craft remains in stable flight through
 the duration of its control, that is, from the end of the glider launch sequence
-to the landing. To ensure the requirement is reasonable attainable, it does not
+until landing. To ensure the requirement is reasonably attainable, it does not
 require the consideration of meteorological conditions. It can be assumed that
 the craft flies through windless, constant-density air.
 
@@ -91,19 +91,20 @@ the craft flies through windless, constant-density air.
 \label{sec:obj2}
 
 In order to make recovery as convenient as possible, the primary objective of
-the craft's control system is to arrive at a predetermined point on the ground,
-specifically, the launch area, or a neighbouring location.
+the craft's control system is to arrive at a predetermined point on the ground
+-- specifically, the launch area or a neighbouring location.
 
-This objective is only feasible for a range of initial conditions. Fortunately,
-the rocket launch provides a relatively narrow range of initial conditions. The
-apex of the flights of the rocket under consideration will range from between
-2~km and 5~km above ground level, with lateral displacement less than 1~km. Up
-to 1~s of freefall before deployment gives 0~m/s to 9.8~m/s initial downward
-velocity. Between 0.5~m/s and 3~m/s lateral speed are expected at the apex of
-the rocket's flight, and are therefore the initial condition's ground speed
-range. The assumption that the deployment procedure will position the craft in
-a state favourable to flight can be formalized to an orientation that gives
-between 0 and 30 degrees angle of attack, no sideslip, and zero angle rates.
+This objective is only feasible for a certain range of initial conditions.
+Fortunately, the rocket launch provides a relatively narrow range of initial
+conditions. The apex of the flight of the rocket under consideration will
+range from between 2~km and 5~km above ground level, with lateral displacement
+less than 1~km. Up to 1~s of freefall before deployment gives 0~m/s to 9.8~m/s
+initial downward velocity. Between 0.5~m/s and 3~m/s lateral speed are expected
+at the apex of the rocket's flight, and are therefore the initial condition's
+ground speed range. The assumption that the deployment procedure will position
+the craft in a state favourable to flight can be formalized to an orientation
+that gives between 0 and 30 degrees angle of attack, no sideslip, and zero
+angle rates.
 
 \section{Land Safely}
 
@@ -133,7 +134,7 @@ and visualization software tools were created based on this model.
 \subsection{Simplifying Assumptions}
 
 In order to create a simple model demonstrating the interesting, long-term
-behaviour of the craft, a number of simplifications were made.
+behaviour of the craft, a number of assumptions were made.
 
 The craft was modelled as a single body, about the center of mass of the overall
 system. This eliminates the requirement of considering forces internal to the
@@ -173,8 +174,8 @@ suitable controller.
 With the omission of internal forces from the dynamics, only two forces remain
 that act on the craft: aerodynamic and gravitational.
 
-Gravitational force is constant and acts downward, through the center of mass at
-all times. Aerodynamic force varies in magnitude and center of action as a
+Gravitational force is constant and acts downward, through the center of mass,
+at all times. Aerodynamic force varies in magnitude and center of action as a
 function of speed and orientation, but can be decomposed into drag force, lift
 force, and pitching moment. These act along the axes of the aerodynamic frame,
 defined using the wind direction and the wing axis, and centered about the
@@ -216,7 +217,7 @@ description={coefficient of lift}}
 description={coefficient of drag}}
 \newglossaryentry{Cm}{type=symbol,name={\ensuremath{C_m}},
 description={pitching moment coefficient}}
-\newglossaryentry{attack}{type=symbol,name={\ensuremath{ \alpha }},
+\newglossaryentry{attack}{type=symbol,name={\ensuremath{ \alpha }},sort=alpha,
 description={angle of attack}}
 \newglossaryentry{density}{type=symbol,name={\ensuremath{ \rho }},sort=density,
 description={density of air}}
@@ -295,7 +296,7 @@ before integration.
 
 The controller must keep the craft flying stably while simultaneously attempting
 to navigate to its destination.  This means it must prevent the craft from
-attaining unstable attitudes, both those of pitch, and of roll.  While
+attaining unstable attitudes both in pitch and in roll.  While
 maintaining stable flight, the controller must adjust the craft's heading in
 order to follow a smooth flightplan towards its objective.  The design of the
 controller was separated into inner and outer loops, each operating in a
@@ -311,7 +312,7 @@ as the path planner.
     \label{fig:flowchart}
 \end{figure}
 
-The outer-loop block consists of a non-linear controller, instead of the typical
+The path planner consists of a non-linear controller, instead of the typical
 LTI setup.  The reasoning behind this choice was that, depending on the current
 state of the craft, differing control objectives become active.  In
 certain situations, the path planner will prioritize stable, forward flight,
@@ -323,10 +324,10 @@ dynamics provided by \cite{spottiswoode}.  For the purposes of the simulation,
 all state variables are directly measurable.  A physical implementation would
 not share this property, and so an observer would have to be designed to
 estimate state.  However, the Separation Principle assures us that the
-controller design is independant of the observer design, so the controller
-designed here can be augmented with an observer later if the prototype is
-actually built.  In the meantime, limiting the design to stabilization and
-heading tracking simplifies the design.
+controller design is independant of the observer design \cite{brezinski}, so
+the controller designed here can be augmented with an observer later if the
+prototype is actually built.  In the meantime, limiting the design to
+stabilization and heading tracking simplifies the design.
 
 \subsection{Performance Requirements}
 \label{sec:perfreq}
@@ -393,7 +394,7 @@ heading and the direction to the objective.
 
 To avoid destabilizing the craft, the offset of the target heading to the
 current heading is limited by running only a single step of this gradient
-minimization in stead of running to completion. While this does not find the
+minimization instead of running to completion. While this does not find the
 optimal desired orientation immediatly, the craft's convergence on the target
 heading will act to cause the target to converge towards the local minimum.
 
@@ -415,7 +416,7 @@ for perfect steady-state step tracking.  Linear feedback (see
 (\ref{eqn:cost})).  The design parameters $\gls{Q}$ and $\gls{R}$ are chosen and
 iteratively refined in order to meet the performance requirements.  The final
 values for $\gls{Q}$, $\gls{R}$, and $\gls{K}$ are given in
-Chapter~\ref{sec:results}.
+Appendix~\ref{sec:ctrlvals}.
 
 \newglossaryentry{x}{type=symbol,name={\ensuremath{x}},
 description={state vector}}
@@ -528,7 +529,7 @@ parameters for the yaw, pitch, and roll attitudes.  The reference angles for
 these disturbance parameters are their steady-state values; however, these
 steady-state values of craft parameters may be computationally
 intensive to obtain for arbitrary flight configurations, and in fact may not
-exist, for example when the craft is in a roll.
+exist, for example, when the craft is in a roll.
 This prevents the calculation of appropriate disturbance values to
 pass to the control logic during simulation.  The result of these difficulties
 is that the controller designed using the methodology outlined in
@@ -685,7 +686,7 @@ members as required to complete their tasks. The plan did not account for the
 time taken in learning and associated naive mistakes.
 
 Several suboptimal decisions were made regarding implementation strategy. One
-salient example is the failure to invest in a $3^{rd}$ party physics simulation
+salient example is the failure to invest in a $3^{rd}$-party physics simulation
 system. These decisions led to much additional work, such as debugging a
 home-grown physics simulation system, only tangential to the objectives.
 
@@ -694,7 +695,7 @@ However, the glider's mechanical design has yet to be made available to the team
 this project. Additionally, both engine tests run by the team to date have
 resulted in destructive failures. Lacking parameters for the glider, a prototype
 of the glider, engine force and noise characteristics, or a rocket to use in
-test flights; many of the scheduled activities cannot be accomplished.
+test flights, many of the scheduled activities cannot be accomplished.
 
 The initial timeline, as well as its current state of completion, is summarized
 below.
@@ -745,8 +746,8 @@ below.
         & 2 week buffer & & & \\
     \hline
     Apr
-        & Final Report & Ongoing & \checkmark & \checkmark \\
-        & Conference Summary & Ongoing & \checkmark & \checkmark \\
+        & Final Report & Completed & \checkmark & \checkmark \\
+        & Conference Summary & Completed & \checkmark & \checkmark \\
         & Project Video & Ongoing & \checkmark & \checkmark \\
         & Symposium Presentation Materials & Completed & \checkmark & \checkmark \\
         & Symposium & Completed & \checkmark & \checkmark \\
