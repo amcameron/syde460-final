@@ -350,6 +350,17 @@ much more lax, and not based on any necessary behaviour the craft ought to have.
 Physical limits of craft behaviour were also specified.  The derived
 specifications are summarized in Table~\ref{tab:specs}.
 
+\newglossaryentry{ess}{type=symbol,name={\ensuremath{e_{ss}}},
+description={steady state error}}
+\newglossaryentry{trp}{type=symbol,name={\ensuremath{t_{r,pitch}}},
+description={pitch response 90\% rise time}}
+\newglossaryentry{trr}{type=symbol,name={\ensuremath{t_{r,roll}}},
+description={roll response 90\% rise time}}
+\newglossaryentry{upm}{type=symbol,name={\ensuremath{u_{p,max}}},
+description={upper bound on longitudinal control signal}}
+\newglossaryentry{urm}{type=symbol,name={\ensuremath{u_{r,max}}},
+description={upper bound on lateral control signal}}
+
 % Should we move performance requirements to Results? No; cf. grading sheet.
 % '- The performance requirements belong here, in Methodology.
 \begin{table}[b]
@@ -357,11 +368,11 @@ specifications are summarized in Table~\ref{tab:specs}.
     \begin{tabular}{|l|r|}
         \hline
         Performance metric & Value \\ \hline
-        Steady-state error ($e_{ss}$) & 0 \\
-        Rise time, pitch ($t_{r,pitch}$) & 100 s \\
-        Rise time, roll ($t_{r,roll}$) & 3.0 s \\
-        Lateral control signal bounds ($u_{r,max}$) & $\pm90\degree$ \\
-        Longitudinal control signal bounds ($u_{p,max}$) & $\pm90\degree$ \\
+        Steady-state error (\gls{ess}) & 0 \\
+        Rise time, pitch (\gls{trp}) & 100 s \\
+        Rise time, roll (\gls{trr}) & 3.0 s \\
+        Lateral control signal bounds (\gls{urm}) & $\pm90\degree$ \\
+        Longitudinal control signal bounds (\gls{upm}) & $\pm90\degree$ \\
         \hline
     \end{tabular}
     \caption{Performance specifications}
