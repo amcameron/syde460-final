@@ -9,3 +9,8 @@
 *.toc
 *.swp
 *.out
+*.glo
+*.sbl
+*.slg
+*.sym
+*.xdy
