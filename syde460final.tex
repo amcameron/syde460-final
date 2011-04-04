@@ -5,6 +5,11 @@
 % \usepackage{graphicx}
 \usepackage{longtable}
 \usepackage{nameref}
+
+\usepackage[xindy]{glossaries}
+\newglossary[slg]{symbol}{sym}{sbl}{List of Symbols}
+\makeglossaries
+
 \DeclareGraphicsExtensions{.eps}
 
 \coursecode{462}
@@ -176,8 +181,18 @@ center of gravity of the wing \cite{etkin}. These are translated to forces and
 moments acting about the center of mass of the craft to give a consistent set of
 equations that describe the forces acting on the craft.
 
+\newglossaryentry{sigmaF}{type=symbol,name={\ensuremath{\Sigma \vec{F}}},
+description={sum of all forces acting on the craft}
+}
+\newglossaryentry{accel}{type=symbol,name={\ensuremath{\vec{a}}},
+description={acceleration}
+}
+\newglossaryentry{Fg}{type=symbol,name={\ensuremath{\vec{F_g}}},
+description={force due to gravity}
+}
+
 \begin{eqnarray*}
-\Sigma \vec{F} &=& \vec{F_g} + \vec{F_L} + \vec{F_D} + \vec{F_p} \\
+\gls{sigmaF} &=& \vec{F_g} + \vec{F_L} + \vec{F_D} + \vec{F_p} \\
 \Sigma \vec{M} &=& \vec{M_p} + \vec{M_L} + \vec{M_D} \\
 \vec{F_g} &=& -mg\hat{k} \\
 \vec{F_L} &=& C_L(\alpha) \frac{\rho v^2 S}{2}\hat{e}_{aero,z} \\
@@ -195,7 +210,7 @@ The effect the external forces have on the craft are described by the
 Newton-Euler equations.
 
 \begin{eqnarray*}
-\vec{a} &=& m^{-1} \Sigma \vec{F} \\
+\gls{accel} &=& m^{-1} \Sigma \vec{F} \\
 \vec{\alpha} &=& \textbf{I}^{-1}(\Sigma \vec{M} - \omega \times \textbf{I} \omega) \\
 \end{eqnarray*}
 
@@ -708,6 +723,8 @@ beginning with the lateral control input.
         0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
     \end{bmatrix}
 \end{align*}
+
+\printglossary[type=symbol]
 
 \bibliography{syde460final}
 \end{document}
