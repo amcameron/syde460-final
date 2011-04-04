@@ -281,19 +281,29 @@ mass, the horizontal plane serves as an extreme limit for absolute displacements
 most $\pm \pi/2$).  Therefore, the need for responses fast enough to stabilize
 the craft compete with the need to keep control signals small.
 
-In order to establish specifications for the controller, the open-loop
-system was simulated (i.e., the glider with constant, zero control input) and
-measurements were made to determine how quickly the system diverged from the
-linearization point.  Physical limits of craft behaviour were also specified.
-The derived specifications are summarized in Table~\ref{tab:specs}.
+In order to establish roll response specifications for the controller, the
+open-loop system (i.e., the glider with constant, zero control input) was
+simulated with an initial roll of $15\degree$ and measurements were made to
+determine how quickly the system diverged from the linearization point - in
+particular, the time it took for the roll or yaw to exceed $\pm45\degree$.  As
+the craft is inherently stable in pitch, the pitch rise time requirement was
+much more lax, and not based on any necessary behaviour the craft ought to have.
+Physical limits of craft behaviour were also specified.  The derived
+specifications are summarized in Table~\ref{tab:specs}.
 
-%TODO: come up with performance requirements.
 % Should we move performance requirements to Results? No; cf. grading sheet.
 % '- The performance requirements belong here, in Methodology.
 \begin{table}[b]
     \centering
-    \begin{tabular}{|c|}
-        hmm
+    \begin{tabular}{|l|r|}
+        \hline
+        Performance metric & Value \\ \hline
+        Steady-state error ($e_{ss}$) & 0 \\
+        Rise time, pitch ($t_{r,pitch}$) & 100 s \\
+        Rise time, roll ($t_{r,roll}$) & 3.0 s \\
+        Lateral control signal bounds ($u_{r,max}$) & $\pm90\degree$ \\
+        Longitudinal control signal bounds ($u_{p,max}$) & $\pm90\degree$ \\
+        \hline
     \end{tabular}
     \caption{Performance specifications}
     \label{tab:specs}
@@ -457,16 +467,21 @@ Although the difficulties detailed in \nameref{sec:ctrlimpl}, above, prevented
 measuring the designed controller's performance in the nonlinear simulation, it
 was simulated using the linearized plant to measure performance and iterate
 design choices for the LQR parameters $Q$ and $R$ (cf.  Section~\ref{sec:lqr}).
-The final values are given in Appendix~\ref{sec:ctrlvals}.
+The final values are given in Appendix~\ref{sec:ctrlvals}, and simulations
+demonstrating that the rise time specifications given in
+Section~\ref{sec:perfreq} have been met are shown in Fig.~\ref{fig:linrisetime}.
 
-%TODO: prepare this figure.
-\begin{figure}[b]
-    \begin{center}
-        \includegraphics{figs/todo}
-    \end{center}
+\begin{figure}
+    \centering
+    \subfloat[Pitch
+    performance]{\includegraphics[width=0.8\columnwidth]{figs/pitchresp}} \\
+    \subfloat[Roll
+    performance]{\includegraphics[width=0.8\columnwidth]{figs/rollresp}}
     \caption{Simulation of linear model showing rise-time performance.}
     \label{fig:linrisetime}
 \end{figure}
+
+\pagebreak
 
 \section{Objectives}
 Due to the difficulties mentioned in \nameref{sec:ctrlimpl}, above, the final
@@ -693,7 +708,6 @@ beginning with the lateral control input.
 \chapter{Final Controller Parameters}
 \label{sec:ctrlvals}
 
-%TODO: fill in actual values here.
 \setcounter{MaxMatrixCols}{20}
 \begin{align*}
     Q &=
@@ -708,19 +722,19 @@ beginning with the lateral control input.
         0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
         0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
         0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
-        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 600
     \end{bmatrix}
     \\
     R &=
     \begin{bmatrix}
-        1 & 0 \\
-        0 & 1
+        50 & 0 \\
+        0 & 50
     \end{bmatrix}
     \\
     K &=
     \begin{bmatrix}
-        1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-        0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+        -0.0416 & -0.0174 & 0.377 & 1.18 & 0 & 0 & 0 & 0 & 0 & 0.141 & 0 \\
+        0 & 0 & 0 & 0 & -0.219 & 0.595 & 2.31 & 4.42 & 0.217 & 0 & 3.46
     \end{bmatrix}
 \end{align*}
 
